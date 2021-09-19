@@ -1,6 +1,7 @@
 # ManySheets
 > A list of SwiftUI Bottom Sheet components
 
+[![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
 [![Swift Version][swift-image]][swift-url]
 [![License][license-image]][license-url]
 
