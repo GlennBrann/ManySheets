@@ -248,6 +248,8 @@ struct ContentView: View {
 
 * 1.0.0
     * CHANGE: Added DefaultBottomSheet and ScaffoldBottomSheet
+* 1.0.1
+    * CHANGE: Setting minimum iOS version to iOS 14. More stable
 
 
 ## License
