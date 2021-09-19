@@ -14,7 +14,7 @@ See below for examples and customization.
 ## Installation
 
 ### Requirements
-* iOS 13.0+
+* iOS 14.0+
 * Xcode 11.2+
 * Swift 5+
 
