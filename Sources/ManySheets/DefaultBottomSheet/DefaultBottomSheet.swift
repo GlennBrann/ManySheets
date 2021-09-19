@@ -53,7 +53,7 @@ public struct DefaultBottomSheet<Content: View>: View {
 
     @Binding var isOpen: Bool
     
-    let style: BottomSheetStyle
+    let style: DefaultBottomSheetStyle
     
     let options: [DefaultBottomSheet.Options]
     
@@ -65,7 +65,7 @@ public struct DefaultBottomSheet<Content: View>: View {
     
     public init(
         isOpen: Binding<Bool>,
-        style: BottomSheetStyle = .defaultStyle(),
+        style: DefaultBottomSheetStyle = .defaultStyle(),
         options: [DefaultBottomSheet.Options] = [],
         @ViewBuilder content: @escaping () -> Content
     ) {

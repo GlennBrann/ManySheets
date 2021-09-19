@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct BottomSheetStyle {
+public struct DefaultBottomSheetStyle {
     public let backgroundColor: Color
     public let cornerRadius: CGFloat
     public let dimmingColor: Color
@@ -47,9 +47,9 @@ public struct BottomSheetStyle {
 
 // MARK: - Default BottomSheet style extension
 
-extension BottomSheetStyle {
-    public static func defaultStyle() -> BottomSheetStyle {
-        BottomSheetStyle(
+extension DefaultBottomSheetStyle {
+    public static func defaultStyle() -> DefaultBottomSheetStyle {
+        DefaultBottomSheetStyle(
             backgroundColor: .white,
             cornerRadius: 8.0,
             dimmingColor: .black,

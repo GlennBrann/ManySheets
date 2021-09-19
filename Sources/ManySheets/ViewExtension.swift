@@ -18,7 +18,7 @@ public extension View {
     ///    - content: A ViewBuilder used to set the content of the bottom sheet.
     func defaultBottomSheet<Content: View>(
         isOpen: Binding<Bool>,
-        style: BottomSheetStyle = .defaultStyle(),
+        style: DefaultBottomSheetStyle = .defaultStyle(),
         options: [DefaultBottomSheet<Content>.Options] = [],
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
@@ -41,8 +41,7 @@ public extension View {
     ///    - positions: A struct containing the top, middle and bottom heights as a decimal percentage
     ///    - defaultPosition: The default position the scaffold bottom sheet will be in when isOpen.
     ///    - headerContent: An optional header content view builder
-    ///    - content: A ViewBuilder used to set the body content of the scaffold bottom sheet.
-    ///    -
+    ///    - bodyContent: A ViewBuilder used to set the body content of the scaffold bottom sheet.
     func scaffoldBottomSheet<Header: View, Body: View>(
         isOpen: Binding<Bool>,
         style: ScaffoldBottomSheetStyle = .defaultStyle(),
