@@ -36,7 +36,7 @@ import PackageDescription
 
 let package = Package(
     dependencies: [
-        .Package(url: "https://https://github.com/GlennBrann/ManySheets.git", from: "1.0.0")
+        .Package(url: "https://https://github.com/GlennBrann/ManySheets.git", from: "1.0.1")
     ]
 )
 ```
