@@ -125,7 +125,7 @@ struct DefaultBottomSheetExample: View {
 The ScaffoldBottomSheet is a bottom sheet that has three positions `top`, `middle`, and `bottom`. This bottom sheet can scroll content when fully open. This can be disabled by adding the `.disableScroll` option.
 
 ```swift
-ScaffoldBottomSheet(isOpen: style: options: content:)
+ScaffoldBottomSheet(isOpen: style: options: positions: defaultPosition: headerContent: bodyContent:)
 ```
 or via the modifier
 ```swift
