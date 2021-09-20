@@ -16,7 +16,7 @@ See below for examples and customization.
 
 ### Requirements
 * iOS 14.0+
-* Xcode 11.2+
+* Xcode 12+
 * Swift 5+
 
 # Swift Package Manager
