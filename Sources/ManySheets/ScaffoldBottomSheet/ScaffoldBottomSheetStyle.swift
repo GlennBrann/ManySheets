@@ -26,7 +26,7 @@ public struct ScaffoldBottomSheetStyle {
         dimmingColor: Color = .black,
         handleBarColor: Color = .gray,
         handleBarHeight: CGFloat = 8.0,
-        shadowColor: Color = .black.opacity(0.25),
+        shadowColor: Color = Color.black.opacity(0.25),
         shadowRadius: CGFloat = 10.0,
         shadowX: CGFloat = 0.0,
         shadowY: CGFloat = -5.0,
@@ -50,12 +50,12 @@ public struct ScaffoldBottomSheetStyle {
 extension ScaffoldBottomSheetStyle {
     public static func defaultStyle() -> ScaffoldBottomSheetStyle {
         ScaffoldBottomSheetStyle(
-            backgroundColor: .white,
+            backgroundColor: Color.white,
             cornerRadius: 8.0,
-            dimmingColor: .black,
-            handleBarColor: .gray,
+            dimmingColor: Color.black,
+            handleBarColor: Color.gray,
             handleBarHeight: 8.0,
-            shadowColor: .black.opacity(0.25),
+            shadowColor: Color.black.opacity(0.25),
             shadowRadius: 10.0,
             shadowX: 0.0,
             shadowY: -5.0,
