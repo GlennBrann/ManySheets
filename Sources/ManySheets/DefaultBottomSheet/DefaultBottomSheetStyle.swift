@@ -11,6 +11,8 @@ import SwiftUI
 public struct DefaultBottomSheetStyle {
     public let backgroundColor: Color
     public let cornerRadius: CGFloat
+    public let corners: UIRectCorner
+    public let outerPadding: CGFloat
     public let dimmingColor: Color
     public let handleBarColor: Color
     public let handleBarHeight: CGFloat
@@ -23,6 +25,8 @@ public struct DefaultBottomSheetStyle {
     public init(
         backgroundColor: Color = Color.white,
         cornerRadius: CGFloat = 8.0,
+        corners: UIRectCorner = [UIRectCorner.topLeft, UIRectCorner.topRight],
+        outerPadding: CGFloat = 0.0,
         dimmingColor: Color = Color.black,
         handleBarColor: Color = Color.gray,
         handleBarHeight: CGFloat = 8.0,
@@ -34,6 +38,8 @@ public struct DefaultBottomSheetStyle {
     ) {
         self.backgroundColor = backgroundColor
         self.cornerRadius = cornerRadius
+        self.corners = corners
+        self.outerPadding = outerPadding
         self.dimmingColor = dimmingColor
         self.handleBarColor = handleBarColor
         self.handleBarHeight = handleBarHeight
@@ -52,6 +58,8 @@ extension DefaultBottomSheetStyle {
         DefaultBottomSheetStyle(
             backgroundColor: Color.white,
             cornerRadius: 8.0,
+            corners: [UIRectCorner.topLeft, UIRectCorner.topRight],
+            outerPadding: 0.0,
             dimmingColor: Color.black,
             handleBarColor: Color.gray,
             handleBarHeight: 8.0,

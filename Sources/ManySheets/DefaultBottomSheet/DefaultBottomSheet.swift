@@ -20,6 +20,8 @@ extension DefaultBottomSheet {
         case enableShadow
         /// Adds swipe gesture support - swiping the view down will trigger a dismissal
         case swipeToDismiss
+        /// Enables bottom safe area insets
+        case enableBottomSafeArea
     }
 }
 
@@ -45,6 +47,10 @@ extension DefaultBottomSheet {
     private var swipeToDismiss: Bool {
         options.contains(.swipeToDismiss)
     }
+    
+    private var enableBottomSafeArea: Bool {
+        options.contains(.enableBottomSafeArea)
+    }
 }
 
 // MARK: - DefaultBottomSheetView
@@ -62,6 +68,10 @@ public struct DefaultBottomSheet<Content: View>: View {
     @State var contentSize: CGSize = .zero
     
     @State private var previousDragValue: DragGesture.Value?
+    
+    var bottomSafeArea: CGFloat {
+        (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0)
+    }
     
     public init(
         isOpen: Binding<Bool>,
@@ -100,15 +110,15 @@ public struct DefaultBottomSheet<Content: View>: View {
                 .onPreferenceChange(SizePreferenceKey.self) {
                     self.contentSize = $0
                 }
-                .frame(width: proxy.size.width,
-                       height: contentSize.height + proxy.safeAreaInsets.bottom,
+                .frame(width: proxy.size.width - style.outerPadding,
+                       height: contentSize.height,
                        alignment: .bottom)
                 .background(style.backgroundColor)
-                .cornerRadius(style.cornerRadius, corners: [.topLeft, .topRight])
-                .frame(height: proxy.size.height, alignment: .bottom)
+                .cornerRadius(style.cornerRadius, corners: style.corners)
+                .frame(height: proxy.size.height - (enableBottomSafeArea ? bottomSafeArea : 0) - (style.outerPadding / 2), alignment: .bottom)
                 .animation(.interactiveSpring(), value: contentSize)
                 .animation(style.openAnimation, value: isOpen)
-                .offset(y: isOpen ? 0 : contentSize.height)
+                .offset(x: style.outerPadding / 2, y: isOpen ? 0 : contentSize.height + (enableBottomSafeArea ? bottomSafeArea : 0) + (style.outerPadding / 2))
                 .shadow(color: hasShadow ? style.shadowColor : .clear,
                         radius: style.shadowRadius, x: style.shadowX, y: style.shadowY)
                 .gesture(dragGesture())
