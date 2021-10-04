@@ -12,7 +12,7 @@ public struct ScaffoldBottomSheetPositions {
     public let top: CGFloat
     public let middle: CGFloat
     public let bottom: CGFloat
-    
+
     public init(
         top: CGFloat = 1.0,
         middle: CGFloat = 0.5,
@@ -42,7 +42,7 @@ extension ScaffoldBottomSheet {
         case disableShadow
         /// Disables the scroll view functionality when the sheet is fully open
         case disableScroll
-        
+
         case swipeToDismiss
     }
 }
@@ -53,19 +53,19 @@ extension ScaffoldBottomSheet {
     private var hasHandleBar: Bool {
         options.contains(.enableHandleBar)
     }
-    
+
     private var tapAwayToDismiss: Bool {
         options.contains(.tapAwayToDismiss)
     }
-    
+
     private var shadowDisabled: Bool {
         options.contains(.disableShadow)
     }
-    
+
     private var scrollDisabled: Bool {
         options.contains(.disableScroll)
     }
-    
+
     private var swipeToDismiss: Bool {
         options.contains(.swipeToDismiss)
     }
@@ -73,39 +73,37 @@ extension ScaffoldBottomSheet {
 
 
 public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
-    
+
     @Binding var isOpen: Bool
-    
+
     let style: ScaffoldBottomSheetStyle
-    
+
     let options: [ScaffoldBottomSheet.Options]
-    
+
     let positions: ScaffoldBottomSheetPositions
-    
+
     let defaultPosition: Position
-    
+
     let headerContent: Header?
-    
+
     let bodyContent: Body
-    
+
     var topSafeArea: CGFloat {
         (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0)
     }
-    
+
     var bottomSafeArea: CGFloat {
         (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0)
     }
-    
+
     @State var position: CGFloat = UIScreen.main.bounds.height
-    
-    @State private var shouldScroll: Bool = false
-    
+
     @GestureState private var dragState = DragState.inactive
-    
+
     enum DragState {
         case inactive
         case dragging(translation: CGSize)
-        
+
         var translation: CGSize {
             switch self {
             case .inactive:
@@ -114,7 +112,7 @@ public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
                 return translation
             }
         }
-        
+
         var isDragging: Bool {
             switch self {
             case .inactive:
@@ -124,7 +122,7 @@ public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
             }
         }
     }
-    
+
     public init(
         isOpen: Binding<Bool>,
         style: ScaffoldBottomSheetStyle = .defaultStyle(),
@@ -142,7 +140,7 @@ public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
         self.headerContent = headerContent()
         self.bodyContent = bodyContent()
     }
-    
+
     public var body: some View {
         GeometryReader { proxy in
             ZStack {
@@ -165,9 +163,11 @@ public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
                     }
                     if !scrollDisabled {
                         ScrollView(.vertical, showsIndicators: false) {
-                            bodyContent
+                            VStack(spacing: 0) {
+                                bodyContent
+                            }.animation(nil)
+                            Spacer(minLength: position)
                         }
-                        .disabled(scrollDisabled ? true : !shouldScroll)
                     } else {
                         bodyContent
                     }
@@ -208,7 +208,7 @@ public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
             }
         }
     }
-    
+
     private func getSheetPosition(height: CGFloat, position: Position) -> CGFloat {
         switch position {
         case .top:
@@ -219,13 +219,13 @@ public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
             return height - (height * positions.bottom) - bottomSafeArea
         }
     }
-    
+
     private var dragBar: some View {
         RoundedRectangle(cornerRadius: 5.0 / 2.0)
             .frame(width: 40, height: 5.0)
             .foregroundColor(style.handleBarColor)
     }
-    
+
     private var dimmingView: some View {
         Rectangle()
             .fill(style.dimmingColor.opacity(0.25))
@@ -240,15 +240,14 @@ extension ScaffoldBottomSheet {
     private func onDragEnded(drag: DragGesture.Value, height: CGFloat) {
         let verticalDirection = drag.predictedEndLocation.y - drag.location.y
         let topEdge = position + drag.translation.height
-        
+
         let topPosition = getSheetPosition(height: height, position: .top)
         let middlePosition = getSheetPosition(height: height, position: .middle)
         let bottomPosition = getSheetPosition(height: height, position: .bottom)
-        
+
         var positionAbove: CGFloat = .zero
         var positionBelow: CGFloat = .zero
         var closestPosition: CGFloat = .zero
-        shouldScroll = false
 
         if topEdge <= middlePosition {
             positionAbove = topPosition
@@ -272,18 +271,12 @@ extension ScaffoldBottomSheet {
             }
             position = positionBelow
         } else if verticalDirection < 0 { // Upwards
-            if topEdge <= topPosition, !scrollDisabled {
-                shouldScroll = true
-            }
             position = positionAbove
         } else {
-            if topEdge <= topPosition, !scrollDisabled {
-                shouldScroll = true
-            }
             position = closestPosition
         }
     }
-    
+
 }
 
 // MARK: - SizePreferenceKey
