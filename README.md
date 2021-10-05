@@ -15,8 +15,8 @@ See below for examples and customization.
 ## Installation
 
 ### Requirements
-* iOS 14.0+
-* Xcode 12+
+* iOS 15.0+
+* Xcode 13+
 * Swift 5+
 
 # Swift Package Manager
@@ -36,7 +36,7 @@ import PackageDescription
 
 let package = Package(
     dependencies: [
-        .Package(url: "https://https://github.com/GlennBrann/ManySheets.git", from: "1.0.3")
+        .Package(url: "https://https://github.com/GlennBrann/ManySheets.git", from: "1.0.5")
     ]
 )
 ```
@@ -255,6 +255,8 @@ struct ContentView: View {
 * 1.0.3
     * CHANGE: Bug fix for scroll view / gesture animation glitch
     * CHANGE: Removed shouldScroll functionality on scroll view for fluid scrolling until a better solution is written.
+* 1.0.4
+    * CHANGE: Minimum iOS 15 XC 13 (for now)    
 
 ## License
 
