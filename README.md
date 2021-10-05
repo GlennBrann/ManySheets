@@ -256,7 +256,7 @@ struct ContentView: View {
 * 1.0.3
     * CHANGE: Bug fix for scroll view / gesture animation glitch
     * CHANGE: Removed shouldScroll functionality on scroll view for fluid scrolling until a better solution is written.
-* 1.0.4
+* 1.0.4 - 1.0.5
     * CHANGE: Minimum iOS 15 XC 13 (for now)    
 
 ## License
