@@ -9,6 +9,7 @@ ManySheets has a list of custom SwiftUI Bottom Sheet components.
 
 1. **DefaultBottomSheet:** A dynamic bottom sheet that scales based on content height inside.
 2. **ScaffoldBottomSheet:** A scaffolding bottom sheet with three positions (top, middle, bottom).
+3. **BottomSheetPresenter:** A bottom sheet using UISheetPresentationController in iOS 15
 
 See below for examples and customization.
 
