@@ -7,7 +7,9 @@
 //
 
 import SwiftUI
+#if !os(macOS)
 import UIKit
+#endif
 
 @available(iOS 15, *)
 class BottomSheetPresenterViewController<Content: View>: UIViewController {
