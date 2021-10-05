@@ -36,7 +36,7 @@ import PackageDescription
 
 let package = Package(
     dependencies: [
-        .Package(url: "https://https://github.com/GlennBrann/ManySheets.git", from: "1.0.2")
+        .Package(url: "https://https://github.com/GlennBrann/ManySheets.git", from: "1.0.3")
     ]
 )
 ```
@@ -252,7 +252,9 @@ struct ContentView: View {
     * CHANGE: Setting minimum iOS version to iOS 14. More stable
 * 1.0.2
     * CHANGE: Bug fix for compiler error and Color.black.opacity()
-
+* 1.0.3
+    * CHANGE: Bug fix for scroll view / gesture animation glitch
+    * CHANGE: Removed shouldScroll functionality on scroll view for fluid scrolling until a better solution is written.
 
 ## License
 
