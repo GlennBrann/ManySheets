@@ -16,7 +16,7 @@ See below for examples and customization.
 
 ### Requirements
 * iOS 14.0+
-* Xcode 12+
+* Xcode 13+
 * Swift 5+
 
 # Swift Package Manager
@@ -36,7 +36,7 @@ import PackageDescription
 
 let package = Package(
     dependencies: [
-        .Package(url: "https://https://github.com/GlennBrann/ManySheets.git", from: "1.0.2")
+        .Package(url: "https://https://github.com/GlennBrann/ManySheets.git", from: "1.2.0")
     ]
 )
 ```
@@ -69,7 +69,7 @@ struct DefaultBottomSheetExample: View {
     
     @State var showSheet: Bool = false
     
-    let bottomSheetStyle = BottomSheetStyle(backgroundColor: .white)
+    let bottomSheetStyle = DefaultBottomSheetStyle(backgroundColor: .white)
     
     var body: some View {
         ZStack {
@@ -252,6 +252,8 @@ struct ContentView: View {
     * CHANGE: Setting minimum iOS version to iOS 14. More stable
 * 1.0.2
     * CHANGE: Bug fix for compiler error and Color.black.opacity()
+* 1.2.0
+    * CHANGE: Compiles against iOS 14 + ExampleApp workspace  
 
 
 ## License
