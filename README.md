@@ -245,14 +245,16 @@ struct ContentView: View {
 
 
 ## Release History
-
+(No major rhyme or reason to these releases)
 * 1.0.0
     * CHANGE: Added DefaultBottomSheet and ScaffoldBottomSheet
 * 1.0.1
     * CHANGE: Setting minimum iOS version to iOS 14. More stable
 * 1.0.2
     * CHANGE: Bug fix for compiler error and Color.black.opacity()
-* 1.2.0
+* 1.1.0
+    * CHANGE: XC 13 minimum + other things
+* 1.1.1
     * CHANGE: Compiles against iOS 14 + ExampleApp workspace  
 
 
