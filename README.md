@@ -254,7 +254,7 @@ struct ContentView: View {
     * CHANGE: Bug fix for compiler error and Color.black.opacity()
 * 1.1.0
     * CHANGE: XC 13 minimum + other things
-* 1.2.0
+* 1.2.1
     * CHANGE: Compiles against iOS 14 + ExampleApp workspace  
 
 
