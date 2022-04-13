@@ -166,8 +166,8 @@ public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
                     if !scrollDisabled {
                         ScrollView(.vertical, showsIndicators: false) {
                             bodyContent
+                                .frame(width: proxy.size.width, height: proxy.size.height, alignment: .top)
                         }
-                        .disabled(scrollDisabled ? true : !shouldScroll)
                     } else {
                         bodyContent
                     }
