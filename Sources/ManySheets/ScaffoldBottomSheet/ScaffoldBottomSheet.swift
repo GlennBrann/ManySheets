@@ -166,7 +166,11 @@ public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
                     if !scrollDisabled {
                         ScrollView(.vertical, showsIndicators: false) {
                             bodyContent
-                                .frame(width: proxy.size.width, height: proxy.size.height, alignment: .top)
+                                .frame(
+                                    width: proxy.size.width,
+                                    height: proxy.size.height - position + dragState.translation.height + proxy.safeAreaInsets.bottom,
+                                    alignment: .top
+                                )
                         }
                     } else {
                         bodyContent
