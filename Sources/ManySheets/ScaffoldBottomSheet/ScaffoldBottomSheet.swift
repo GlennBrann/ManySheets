@@ -168,7 +168,7 @@ public struct ScaffoldBottomSheet<Header: View, Body: View>: View {
                             bodyContent
                                 .frame(
                                     width: proxy.size.width,
-                                    height: abs(proxy.size.height - position + dragState.translation.height + proxy.safeAreaInsets.bottom),
+                                    height: max(proxy.size.height - (!dragState.isDragging ? position : 0.0), 0.0),
                                     alignment: .top
                                 )
                         }
