@@ -6,6 +6,7 @@
 //  Copyright © 2021 Glenn Brannelly. All rights reserved.
 //
 
+import Foundation
 import SwiftUI
 
 public extension View {
@@ -15,11 +16,13 @@ public extension View {
     ///    - isOpen: A binding used to display the bottom sheet.
     ///    - style: A property containing all bottom sheet styling
     ///    - options: An array that contains the bottom sheet options
+    ///    - maxWidth: The max width of the bottom sheet
     ///    - content: A ViewBuilder used to set the content of the bottom sheet.
     func defaultBottomSheet<Content: View>(
         isOpen: Binding<Bool>,
         style: DefaultBottomSheetStyle = .defaultStyle(),
         options: [DefaultBottomSheet<Content>.Options] = [],
+        maxWidth: CGFloat = 0.0,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
         ZStack {
@@ -28,6 +31,7 @@ public extension View {
                 isOpen: isOpen,
                 style: style,
                 options: options,
+                maxWidth: maxWidth,
                 content: content
             )
         }

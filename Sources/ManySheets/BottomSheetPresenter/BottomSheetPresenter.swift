@@ -5,6 +5,7 @@
 //  Created by Brannelly, Glenn on 10/5/21.
 //
 
+import Foundation
 import SwiftUI
 
 @available(iOS 15, *)

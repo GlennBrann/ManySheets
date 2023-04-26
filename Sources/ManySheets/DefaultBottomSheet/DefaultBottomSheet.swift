@@ -6,6 +6,7 @@
 //  Copyright © 2021 Glenn Brannelly. All rights reserved.
 //
 
+import Foundation
 import SwiftUI
 
 extension DefaultBottomSheet {
@@ -56,7 +57,9 @@ public struct DefaultBottomSheet<Content: View>: View {
     let style: DefaultBottomSheetStyle
     
     let options: [DefaultBottomSheet.Options]
-    
+
+    let maxWidth: CGFloat?
+
     let content: Content
 
     @State var contentSize: CGSize = .zero
@@ -67,11 +70,13 @@ public struct DefaultBottomSheet<Content: View>: View {
         isOpen: Binding<Bool>,
         style: DefaultBottomSheetStyle = .defaultStyle(),
         options: [DefaultBottomSheet.Options] = [],
+        maxWidth: CGFloat? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self._isOpen = isOpen
         self.style = style
         self.options = options
+        self.maxWidth = maxWidth
         self.content = content()
     }
     
@@ -80,13 +85,19 @@ public struct DefaultBottomSheet<Content: View>: View {
             GeometryReader { proxy in
                 if isOpen, (tapAwayToDismiss || blockContent) {
                     dimmingView
-                        .frame(width: proxy.size.width, height: proxy.size.height)
+                        .frame(
+                            width: maxWidth != nil ? maxWidth! : proxy.size.width,
+                            height: proxy.size.height
+                        )
                         .onTapGesture { if tapAwayToDismiss { isOpen = false } }
                 }
                 VStack(spacing: 0) {
                     if hasHandleBar {
                         dragBar
-                            .frame(width: proxy.size.width, height: style.handleBarHeight)
+                            .frame(
+                                width: maxWidth != nil ? maxWidth! : proxy.size.width,
+                                height: style.handleBarHeight
+                            )
                             .background(style.backgroundColor)
                             .padding(.top, 4)
                     }
@@ -100,17 +111,21 @@ public struct DefaultBottomSheet<Content: View>: View {
                 .onPreferenceChange(SizePreferenceKey.self) {
                     self.contentSize = $0
                 }
-                .frame(width: proxy.size.width,
-                       height: contentSize.height + proxy.safeAreaInsets.bottom,
-                       alignment: .bottom)
+                .frame(
+                    width: maxWidth != nil ? maxWidth! : proxy.size.width,
+                    height: contentSize.height + proxy.safeAreaInsets.bottom,
+                    alignment: .bottom
+                )
                 .background(style.backgroundColor)
                 .cornerRadius(style.cornerRadius, corners: [.topLeft, .topRight])
                 .frame(height: proxy.size.height, alignment: .bottom)
                 .animation(.interactiveSpring(), value: contentSize)
                 .animation(style.openAnimation, value: isOpen)
                 .offset(y: isOpen ? 0 : contentSize.height)
-                .shadow(color: hasShadow ? style.shadowColor : .clear,
-                        radius: style.shadowRadius, x: style.shadowX, y: style.shadowY)
+                .shadow(
+                    color: hasShadow ? style.shadowColor : .clear,
+                    radius: style.shadowRadius, x: style.shadowX, y: style.shadowY
+                )
                 .gesture(dragGesture())
             }
             .edgesIgnoringSafeArea(.vertical)

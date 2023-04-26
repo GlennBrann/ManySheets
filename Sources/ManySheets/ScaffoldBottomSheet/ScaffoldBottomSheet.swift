@@ -6,6 +6,7 @@
 //  Copyright © 2021 Glenn Brannelly. All rights reserved.
 //
 
+import Foundation
 import SwiftUI
 
 public struct ScaffoldBottomSheetPositions {
