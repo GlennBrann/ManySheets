@@ -22,7 +22,7 @@ public extension View {
         isOpen: Binding<Bool>,
         style: DefaultBottomSheetStyle = .defaultStyle(),
         options: [DefaultBottomSheet<Content>.Options] = [],
-        maxWidth: CGFloat = 0.0,
+        maxWidth: CGFloat? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) -> some View {
         ZStack {

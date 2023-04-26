@@ -86,7 +86,7 @@ public struct DefaultBottomSheet<Content: View>: View {
                 if isOpen, (tapAwayToDismiss || blockContent) {
                     dimmingView
                         .frame(
-                            width: maxWidth != nil ? maxWidth! : proxy.size.width,
+                            width: proxy.size.width,
                             height: proxy.size.height
                         )
                         .onTapGesture { if tapAwayToDismiss { isOpen = false } }
@@ -121,7 +121,10 @@ public struct DefaultBottomSheet<Content: View>: View {
                 .frame(height: proxy.size.height, alignment: .bottom)
                 .animation(.interactiveSpring(), value: contentSize)
                 .animation(style.openAnimation, value: isOpen)
-                .offset(y: isOpen ? 0 : contentSize.height)
+                .offset(
+                    x: maxWidth != nil ? proxy.size.width / 2 - maxWidth! / 2 : 0,
+                    y: isOpen ? 0 : contentSize.height
+                )
                 .shadow(
                     color: hasShadow ? style.shadowColor : .clear,
                     radius: style.shadowRadius, x: style.shadowX, y: style.shadowY
