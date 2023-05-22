@@ -81,21 +81,22 @@ public struct DefaultBottomSheet<Content: View>: View {
     }
     
     public var body: some View {
-        ZStack {
-            GeometryReader { proxy in
-                if isOpen, (tapAwayToDismiss || blockContent) {
-                    dimmingView
-                        .frame(
-                            width: proxy.size.width,
-                            height: proxy.size.height
-                        )
-                        .onTapGesture { if tapAwayToDismiss { isOpen = false } }
-                }
+        ZStack(alignment: .bottom) {
+            if isOpen, (tapAwayToDismiss || blockContent) {
+                style.dimmingColor.opacity(0.25)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        if tapAwayToDismiss {
+                            self.isOpen = false
+                        }
+                    }
+            }
+            if isOpen {
                 VStack(spacing: 0) {
                     if hasHandleBar {
                         dragBar
                             .frame(
-                                width: maxWidth != nil ? maxWidth! : proxy.size.width,
+                                width: maxWidth != nil ? maxWidth! : .infinity,
                                 height: style.handleBarHeight
                             )
                             .background(style.backgroundColor)
@@ -103,48 +104,25 @@ public struct DefaultBottomSheet<Content: View>: View {
                     }
                     content
                 }
-                .background(
-                    GeometryReader { proxy in
-                        Color.clear.preference(key: SizePreferenceKey.self, value: proxy.size)
-                    }
-                )
-                .onPreferenceChange(SizePreferenceKey.self) {
-                    self.contentSize = $0
-                }
-                .frame(
-                    width: maxWidth != nil ? maxWidth! : proxy.size.width,
-                    height: contentSize.height + proxy.safeAreaInsets.bottom,
-                    alignment: .bottom
-                )
                 .background(style.backgroundColor)
                 .cornerRadius(style.cornerRadius, corners: [.topLeft, .topRight])
-                .frame(height: proxy.size.height, alignment: .bottom)
-                .animation(.interactiveSpring(), value: contentSize)
-                .animation(style.openAnimation, value: isOpen)
-                .offset(
-                    x: maxWidth != nil ? proxy.size.width / 2 - maxWidth! / 2 : 0,
-                    y: isOpen ? 0 : contentSize.height
-                )
                 .shadow(
                     color: hasShadow ? style.shadowColor : .clear,
                     radius: style.shadowRadius, x: style.shadowX, y: style.shadowY
                 )
+                .transition(.move(edge: .bottom))
                 .gesture(dragGesture())
             }
-            .edgesIgnoringSafeArea(.vertical)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .ignoresSafeArea()
+        .animation(style.openAnimation, value: isOpen)
     }
     
     private var dragBar: some View {
         RoundedRectangle(cornerRadius: 5.0 / 2.0)
             .frame(width: 40, height: 5.0)
             .foregroundColor(style.handleBarColor)
-    }
-    
-    private var dimmingView: some View {
-        Rectangle()
-            .fill(style.dimmingColor.opacity(0.25))
-            .contentShape(Rectangle())
     }
 }
 
