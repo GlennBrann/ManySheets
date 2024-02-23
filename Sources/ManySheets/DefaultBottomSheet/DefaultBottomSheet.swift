@@ -66,6 +66,8 @@ public struct DefaultBottomSheet<Content: View>: View {
     
     @State private var previousDragValue: DragGesture.Value?
     
+    @AccessibilityFocusState private var focused: Bool
+    
     public init(
         isOpen: Binding<Bool>,
         style: DefaultBottomSheetStyle = .defaultStyle(),
@@ -85,6 +87,9 @@ public struct DefaultBottomSheet<Content: View>: View {
             if isOpen, (tapAwayToDismiss || blockContent) {
                 style.dimmingColor.opacity(0.25)
                     .ignoresSafeArea()
+                    .accessibilityAction(.escape, {
+                        isOpen = false
+                    })
                     .onTapGesture {
                         if tapAwayToDismiss {
                             self.isOpen = false
@@ -117,12 +122,24 @@ public struct DefaultBottomSheet<Content: View>: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         .ignoresSafeArea()
         .animation(style.openAnimation, value: isOpen)
+        .onChange(of: isOpen) { isOpen in
+            if isOpen {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    focused = true
+                }
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    focused = false
+                }
+            }
+        }
     }
     
     private var dragBar: some View {
         RoundedRectangle(cornerRadius: 5.0 / 2.0)
             .frame(width: 40, height: 5.0)
             .foregroundColor(style.handleBarColor)
+            .accessibilityFocused($focused, equals: true)
     }
 }
 
