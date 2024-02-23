@@ -66,6 +66,8 @@ public struct DefaultBottomSheet<Content: View>: View {
     
     @State private var previousDragValue: DragGesture.Value?
     
+    @AccessibilityFocusState private var focused: Bool
+    
     public init(
         isOpen: Binding<Bool>,
         style: DefaultBottomSheetStyle = .defaultStyle(),
@@ -85,6 +87,9 @@ public struct DefaultBottomSheet<Content: View>: View {
             if isOpen, (tapAwayToDismiss || blockContent) {
                 style.dimmingColor.opacity(0.25)
                     .ignoresSafeArea()
+                    .accessibilityAction(.escape, {
+                        isOpen = false
+                    })
                     .onTapGesture {
                         if tapAwayToDismiss {
                             self.isOpen = false
@@ -96,8 +101,10 @@ public struct DefaultBottomSheet<Content: View>: View {
                     if hasHandleBar {
                         dragBar
                             .frame(
-                                width: maxWidth != nil ? maxWidth! : .infinity,
-                                height: style.handleBarHeight
+                                idealWidth: maxWidth != nil ? maxWidth! : .infinity,
+                                maxWidth: maxWidth != nil ? maxWidth! : .infinity, 
+                                idealHeight: style.handleBarHeight,
+                                maxHeight: style.handleBarHeight
                             )
                             .background(style.backgroundColor)
                             .padding(.top, 4)
@@ -112,17 +119,40 @@ public struct DefaultBottomSheet<Content: View>: View {
                 )
                 .transition(.move(edge: .bottom))
                 .gesture(dragGesture())
+                .accessibilityAddTraits(.isModal)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         .ignoresSafeArea()
         .animation(style.openAnimation, value: isOpen)
+        .onChange(of: isOpen) { isOpen in
+            if isOpen {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    focused = true
+                }
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    focused = false
+                }
+            }
+        }
     }
     
     private var dragBar: some View {
         RoundedRectangle(cornerRadius: 5.0 / 2.0)
             .frame(width: 40, height: 5.0)
             .foregroundColor(style.handleBarColor)
+            .padding(8)
+            .frame(height: 44)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityFocused($focused, equals: true)
+            .accessibilityHint("Double tap to dismiss")
+            .accessibilityLabel("Sheet grabber")
+            .accessibilityAction {
+                DispatchQueue.main.async {
+                    isOpen = false
+                }
+            }
     }
 }
 
