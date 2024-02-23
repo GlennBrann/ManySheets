@@ -10,6 +10,7 @@ import ManySheets
 
 struct ContentView: View {
     @State var showSheet: Bool = false
+    @State var nativeSheet: Bool = false
     
     let bottomSheetStyle = DefaultBottomSheetStyle(backgroundColor: .white)
     
@@ -18,7 +19,46 @@ struct ContentView: View {
             VStack {
                 Button(action: { showSheet.toggle() },
                        label: { Text("Show Default Sheet") })
+                
+                Button(action: { nativeSheet.toggle() },
+                       label: { Text("Show Default Sheet") })
             }
+        }
+        .sheet(isPresented: $nativeSheet) {
+            VStack(alignment: .leading) {
+                HStack(alignment: .top) {
+                    Image(systemName: "info.circle")
+                    Text("Photos attached must be of cats and cats only")
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.bottom, 4)
+                Button(
+                    action: { },
+                    label: {
+                        HStack {
+                            Image(systemName: "camera")
+                                .foregroundColor(Color.blue)
+                            Text("Take a photo")
+                        }
+                    }
+                )
+                    .frame(height: 44)
+                Button(
+                    action: { },
+                    label: {
+                        HStack {
+                            Image(systemName: "photo.on.rectangle")
+                                .foregroundColor(Color.blue)
+                            Text("Choose a photo")
+                        }
+                    }
+                )
+                    .frame(height: 44)
+            }
+            .padding()
+            .padding(.bottom, 16)
+            .buttonStyle(PlainButtonStyle())
+            .presentationDragIndicator(.visible)
         }
         .defaultBottomSheet(
             isOpen: $showSheet,
